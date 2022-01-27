@@ -45,7 +45,9 @@ func (s *RPCServer) Serve(lis net.Listener) {
 	for {
 		conn, err := lis.Accept()
 		if err != nil {
-			if ! errors.Is(err, net.ErrClosed) {
+			if errors.Is(err, NetErrClosed) {
+				log.Printf("[DEBUG] plugin: plugin server: %s", err)
+			} else {
 				log.Printf("[ERR] plugin: plugin server: %s", err)
 			}
 			return
